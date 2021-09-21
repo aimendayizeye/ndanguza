@@ -1,5 +1,8 @@
 
 
+from re import T
+from django.contrib.auth.models import User
+from django.db.models import fields
 from rest_framework import serializers,status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -18,10 +21,10 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         fields ='__all__'
         model = Product
-class BookSerializer(serializers.ModelSerializer):
-    class Meta:
-        fields = '__all__'
-        model = Book
+# class BookSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         fields = '__all__'
+#         model = Book
 class AdvertSerializer(serializers.ModelSerializer):
      class Meta:
         fields = (
@@ -30,3 +33,20 @@ class AdvertSerializer(serializers.ModelSerializer):
         )
         model = Advert
 
+class UserSerializer(serializers.ModelSerializer):
+    products = serializers.PrimaryKeyRelatedField(many=True,queryset = Product.objects.all())
+
+    class Meta:
+        model = User
+        fields = (
+            'id',
+            'username',
+            'email',
+            'products'
+        )
+
+class CartSerializer(serializers.ModelSerializer):
+    product = ProductSerializer(read_only=True,many=True)
+    class Meta:
+        model = Cart
+        fields = '__all__'

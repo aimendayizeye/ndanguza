@@ -5,7 +5,7 @@ from django.contrib import admin
 admin.site.register(Category)
 admin.site.register(Location)
 admin.site.register(Product)
-admin.site.register(Book)
+admin.site.register(Cart)
 admin.site.register(Advert)
 
 
